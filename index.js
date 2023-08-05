@@ -16,14 +16,22 @@ const knexInstance = knex(dbConfig.development);
 
 // Route GET pour récupérer toutes les entreprises.
 app.get('/api/companies', async (req, res) => {
+  
   try {
+
+    
     const {name, page} = req.query;
+    let query = knexInstance('companies');
 
     // Query name
-    let {queryName, queryPage}  = knexInstance('companies');
-    if (name, page) {
+    
+    if (name) {
       queryName = query.where('nom_raison_sociale', 'like', `%${name}%`);
-      queryPage = query.limit(10).offset((page - 1) * 10);
+    }
+
+    if (page) {
+      const pageNumber = parseInt(page, 10);
+      query = query.limit(10).offset((pageNumber - 1) * 10);
     }
 
    
