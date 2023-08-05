@@ -68,7 +68,11 @@ const fetchAndStore = async () => {
   } catch (error) {
     console.error('Error fetching and storing data:', error);
   }
+  
 };
 
 // Call the function to fetch and store data.
 fetchAndStore();
+
+
+  
