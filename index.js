@@ -17,8 +17,16 @@ const knexInstance = knex(dbConfig.development);
 // Route GET pour récupérer toutes les entreprises.
 app.get('/api/companies', async (req, res) => {
   try {
-    // Récupérer toutes les entreprises depuis la base de données.
-    const companies = await knexInstance('companies').select();
+    const {name} = req.query;
+
+    // Query name
+    let query = knexInstance('companies');
+    if (name) {
+      query = query.where('nom_raison_sociale', 'like', `%${name}%`);
+    }
+
+    // Récupérer les entreprises en fonction de ma query
+    const companies = await query.select();
 
     // Renvoyer les entreprises sous forme de réponse JSON.
     res.json(companies);
