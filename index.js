@@ -1,13 +1,17 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 5001;
 const knex = require('knex');
 const dbConfig = require('./knexfile');
+const cors = require('cors');
 
 
 
 
 app.use(express.json());
+app.use(cors({
+     origin: import.meta.env.FRONTEND_URL
+}));
 
 
 
