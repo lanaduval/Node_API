@@ -1,9 +1,28 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import { darkTheme,  } from "naive-ui";
+import HelloWorld from './components/HelloWorld.vue';
 
+</script>
+export default {
+  data(){
+    return {
+      listCompanies:[]
+    }
+  }, 
+  methods: {
+    async getCompanies() {
+      const resCompanies = await fetch("http://localhost:5001/api/companies?&page=1");
+      const finalRes = await res.json();
+      this.listCompanies = finalRes;
+    },
+    mounted() {
+      this.getCompanies()
+    }
+  }
+}
+<script>
 
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>

@@ -1,44 +1,37 @@
-<script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
-})
+<script>
+import { defineComponent, ref, onMounted } from 'vue';
+import axios from 'axios';
+import CompanyCard from './CompanyCard.vue';
+
+export default defineComponent({
+  components: {
+    CompanyCard,
+  },
+  setup() {
+    const companies = ref([]);
+
+    // Fonction pour charger les données des entreprises depuis le backend
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5001/api/companies'); // Remplacez l'URL par celle de votre backend
+        companies.value = response.data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Chargez les données des entreprises lors du montage du composant
+    onMounted(() => {
+      fetchData();
+    });
+
+    return {
+      companies,
+    };
+  },
+});
 </script>
 
-<template>
-  <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-    </h3>
-  </div>
-</template>
-
-<style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
+<style>
+/* Ajoutez ici votre style personnalisé si nécessaire */
 </style>
