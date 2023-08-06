@@ -23,6 +23,11 @@
     Details
   </n-button>
   </router-link>
+
+  <n-button type="primary" ghost @click="generatePDF(company.id)">
+      PDF
+    </n-button>
+
   </n-card>
  
 </div>
@@ -103,6 +108,24 @@ watch(searchQuery, () => {
   currentPage.value = 1;
   fetchCompanies();
 });
+
+
+
+// Function to generate the PDF using the API route
+
+const generatePDF = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:5001/api/companies/generate-pdf/${id}`, {
+      responseType: 'blob',
+    });
+    const file = new Blob([response.data], { type: 'application/pdf' });
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
+
 
 
 </script>

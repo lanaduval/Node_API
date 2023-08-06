@@ -3,6 +3,8 @@ const app = express();
 const port = 5001;
 const knex = require('knex');
 const dbConfig = require('./knexfile');
+const puppeteer = require('puppeteer');
+
 const cors = require('cors');
 require('dotenv').config();
 
@@ -70,7 +72,38 @@ app.get('/api/companies', async (req, res) => {
       }
     });
     
- 
+
+    // Route to generate PDF using Puppeteer
+app.get('/api/companies/generate-pdf/:companyId', async (req, res) => {
+  try {
+    const companyId = req.params.companyId;
+    const url = `http://localhost:3000/api/companies/${companyId}`; // Replace with the actual URL of your Vue.js app
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Set the page viewport and navigate to the company page
+    await page.setViewport({ width: 1200, height: 800 });
+    await page.goto(url, { waitUntil: 'networkidle0' });
+
+    // Generate the PDF
+    const pdfBuffer = await page.pdf({ format: 'A4' });
+
+    // Close the browser
+    await browser.close();
+
+    // Log statements
+    console.log(`PDF generated for Company ID: ${companyId}`);
+    
+    // Send the PDF as a response
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+
 
   app.listen(port, () => {
     console.log(`App listening on port:${port}`);
