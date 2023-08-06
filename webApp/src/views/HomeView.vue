@@ -6,7 +6,6 @@ import CompanyCard from '../components/CompanyCard.vue'
 <template>
   <main>
     <TheWelcome />
-    <CompanyCard />
     
   </main>
 </template>

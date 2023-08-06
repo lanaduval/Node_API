@@ -1,37 +1,20 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import { darkTheme,  } from "naive-ui";
-import HelloWorld from './components/HelloWorld.vue';
+import CompanyCard from './components/CompanyCard.vue';
 
 </script>
-export default {
-  data(){
-    return {
-      listCompanies:[]
-    }
-  }, 
-  methods: {
-    async getCompanies() {
-      const resCompanies = await fetch("http://localhost:5001/api/companies?&page=1");
-      const finalRes = await res.json();
-      this.listCompanies = finalRes;
-    },
-    mounted() {
-      this.getCompanies()
-    }
-  }
-}
-<script>
 
-</script>
+
 
 <template>
   <n-config-provider :theme="darkTheme">
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div class="wrapper" :theme="darkTheme">
+
+     
       <n-button type="primary">
         Dark
       </n-button>
@@ -43,11 +26,17 @@ export default {
     </div>
   </header>
 
+  <body>
+    <CompanyCard />
+  </body>
+
   <RouterView />
 </n-config-provider>
 </template>
 
 <style scoped>
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;
