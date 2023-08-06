@@ -4,13 +4,14 @@ const port = 5001;
 const knex = require('knex');
 const dbConfig = require('./knexfile');
 const cors = require('cors');
+require('dotenv').config();
 
 
 
 
 app.use(express.json());
 app.use(cors({
-     origin: import.meta.env.FRONTEND_URL
+     origin: process.env.FRONTEND_URL
 }));
 
 
@@ -52,7 +53,27 @@ app.get('/api/companies', async (req, res) => {
   }
 });
 
+  app.get('/api/companies/:id', async (req, res) => {
+      try {
+        const companyId = req.params.id;
+        const company = await knexInstance('companies').where('id', companyId).first();
+    
+        if (!company) {
+          return res.status(404).json({ error: 'Company not found' });
+        }
+
+        res.json(company);
+        console.log(company);
+      } catch (error) {
+        console.error('Error cannot get company by ID:', error);
+        res.status(500).json({ error: 'Error cannot get company by ID' });
+      }
+    });
+    
+ 
+
   app.listen(port, () => {
     console.log(`App listening on port:${port}`);
   });
+
  

@@ -8,12 +8,13 @@
       </n-button>
   </n-space>
 
-  
   <div v-for="company in displayedCompanies" :key="company.id" >
+    <RouterLink :to="{ name: 'CompanyDetails', params: { id: company.id} }">
     <div v-if="company.nom_raison_sociale">
   <n-card :title="company.nom_raison_sociale" >
     <template #cover>
       <img src="https://picsum.photos/200?company">
+
     </template>
   Adress : {{ company.geo_adresse }} <br>
   Since : {{ company.date_creation }} <br>
@@ -21,6 +22,7 @@
 
   </n-card>
 </div>
+</RouterLink>
 </div>
 
  <!-- Pagination Controls -->
@@ -47,6 +49,7 @@ const currentPage = ref(1);
 const companies = ref([]); // Array to store fetched companies data
 const itemsPerPage = 10; // Number of items to display per page
 const searchQuery = ref('');
+
 
 
 
@@ -96,8 +99,6 @@ watch(searchQuery, () => {
   currentPage.value = 1;
   fetchCompanies();
 });
-
-
 
 
 

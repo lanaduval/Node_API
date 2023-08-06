@@ -21,7 +21,8 @@ import CompanyCard from './components/CompanyCard.vue';
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+
+        
       </nav>
     </div>
   </header>
