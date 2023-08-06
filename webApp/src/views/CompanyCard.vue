@@ -9,7 +9,7 @@
   </n-space>
 
   <div v-for="company in displayedCompanies" :key="company.id" >
-    <RouterLink :to="{ name: 'CompanyDetails', params: { id: company.id} }">
+    
     <div v-if="company.nom_raison_sociale">
   <n-card :title="company.nom_raison_sociale" >
     <template #cover>
@@ -17,12 +17,16 @@
 
     </template>
   Adress : {{ company.geo_adresse }} <br>
-  Since : {{ company.date_creation }} <br>
-  SIREN : {{ company.siren }} <br>
-
+ 
+  <router-link :to="{ name: 'CompanyDetails', params: { id: company.id } }">
+  <n-button type="primary" ghost>
+    Details
+  </n-button>
+  </router-link>
   </n-card>
+ 
 </div>
-</RouterLink>
+
 </div>
 
  <!-- Pagination Controls -->
@@ -99,8 +103,6 @@ watch(searchQuery, () => {
   currentPage.value = 1;
   fetchCompanies();
 });
-
-
 
 
 </script>

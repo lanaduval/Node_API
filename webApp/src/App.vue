@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import { darkTheme,  } from "naive-ui";
-import CompanyCard from './components/CompanyCard.vue';
+
 
 </script>
 
@@ -14,13 +14,8 @@ import CompanyCard from './components/CompanyCard.vue';
 
     <div class="wrapper" :theme="darkTheme">
 
-     
-      <n-button type="primary">
-        Dark
-      </n-button>
-
       <nav>
-        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/"> Home </RouterLink>
 
         
       </nav>
@@ -28,10 +23,9 @@ import CompanyCard from './components/CompanyCard.vue';
   </header>
 
   <body>
-    <CompanyCard />
+    <RouterView />
   </body>
 
-  <RouterView />
 </n-config-provider>
 </template>
 
