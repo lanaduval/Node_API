@@ -32,7 +32,7 @@ const fetchAndStore = async () => {
     let page = 1;
     let allCompanies = [];
 
-    // Define the insertCompanies function inside fetchAndStore to catch all companies and not aonly the first pag
+    // Define the insertCompanies function inside fetchAndStore to catch all companies and not only the first page
     const insertCompanies = async (companies) => {
       try {
         for (const company of companies) {
@@ -59,7 +59,8 @@ const fetchAndStore = async () => {
           page,
         },
       });
-      console.log(response.data.results);
+      //console.log(response.data.results);
+      
  // add some params to check if the response length
       if (response.status === 200 && response.data && response.data.results.length > 0) {
         const companies = response.data.results;

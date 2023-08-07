@@ -110,3 +110,4 @@ app.get('/api/companies/generate-pdf/:companyId', async (req, res) => {
   });
 
  
+  

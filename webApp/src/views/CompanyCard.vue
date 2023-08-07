@@ -1,25 +1,38 @@
-<template >
 
-<n-space vertical>
-    <n-input size="large" round v-model:value="searchQuery" @update:value="searchQuery" @input="performSearch" />
-    <p>Search Query: {{ searchQuery }}</p>
-    <n-button type="primary" ghost @click="performSearch">
-        Search
-      </n-button>
+<!---------------- TEMPLATE NCARD GALLERY : ALL CARDS ----->
+<template >
+<n-space horizontal justify="start">
+    <n-h1 > Répertoire d'entreprises </n-h1>
   </n-space>
 
-  <div v-for="company in displayedCompanies" :key="company.id" >
-    
-    <div v-if="company.nom_raison_sociale">
-  <n-card :title="company.nom_raison_sociale" >
+
+  <n-space horizontal justify="start">
+    <n-input size="large" hoverable round v-model:value="searchQuery" @update:value="searchQuery" @input="performSearch" placeholder="Recherche par nom"/>
+    <n-button type="primary" ghost @click="performSearch">
+      Search
+    </n-button>
+  </n-space>
+
+
+ 
+    <div class="cardsGallery">
+
+ <!--- FETCHING DATAS FROM MY LOCALE API AND MAPPING IT-->     
+      <div v-for="company in displayedCompanies" :key="company.id" >
+        
+        <div v-if="company.nom_raison_sociale">
+      <n-space justify="space-between" size="small">
+  <n-card :title="company.nom_raison_sociale" hoverable >
     <template #cover>
       <img src="https://picsum.photos/200?company">
-
     </template>
   Adress : {{ company.geo_adresse }} <br>
- 
+
+<template #action>
   <router-link :to="{ name: 'CompanyDetails', params: { id: company.id } }">
-  <n-button type="primary" ghost>
+  
+  <!--- BUTTONS CTA -->  
+    <n-button type="primary" ghost>
     Details
   </n-button>
   </router-link>
@@ -27,29 +40,70 @@
   <n-button type="primary" ghost @click="generatePDF(company.id)">
       PDF
     </n-button>
-
+  </template>
   </n-card>
+  </n-space>
+
  
 </div>
+</div>
 
 </div>
 
- <!-- Pagination Controls -->
 
 
+<!-- Pagination Controls -->
+
+<n-space horizontal justify="center">
     <n-pagination v-model:page="currentPage" :page-count="totalPages" @update:page="onPageChange" />
-
+  </n-space>
 </template>
 
+<!--- STYLE TO CUSTOMIZE MY NAIVE UI COMPONENTS -->  
 <style scoped>
 .n-card {
-  max-width: 300px;
+  width: 20rem;
+  height:30rem;
+  padding:0.5rem;
+ background-color: rgba(219, 218, 226, 0.03);
+}
+
+.n-card img {
+  height:15rem;
+}
+
+.cardsGallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  justify-content: center;
+  grid-gap: 20px;
+  margin : 1rem 1rem 1rem 0rem;
+
 }
 
 
+
+.n-pagination {
+  margin-bottom: 2rem;
+}
+
+.n-button {
+  margin: 0.25rem;
+  &:hover {
+    background-color: hsla(160, 38%, 61%, 0.103);
+  }
+}
+.n-h1 {
+  margin: 2rem 0rem 2rem 0rem;;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  padding: 1rem;
+  border: 0.1rem solid rgb(155, 152, 152);
+  border-radius: 1rem;
+}
 </style>
 
-
+<!----------------- SCRIPT------------------>  
 <script setup>
 import { ref, computed, onMounted, watch} from 'vue';
 import axios from 'axios';
@@ -96,15 +150,17 @@ const onPageChange = (newPage) => {
   currentPage.value = newPage;
 };
 
+
+// Even to fetch companies datas when the search query changes
 const performSearch = () => {
-  console.log('performSearch called');
+  //console.log('performSearch called');
   currentPage.value = 1;
   fetchCompanies();
 };
 
 
 watch(searchQuery, () => {
-  console.log('searchQuery changed:', searchQuery.value);
+  //console.log('searchQuery changed:', searchQuery.value);
   currentPage.value = 1;
   fetchCompanies();
 });

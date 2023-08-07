@@ -1,18 +1,18 @@
+<!---------------- TEMPLATE NCARD DETAILS : ONE CARD ----->
 <template>
     <div>
         <n-space vertical>
-        <n-card :title="companyDetails.nom_raison_sociale" >
+        <n-card :title="companyDetails.nom_raison_sociale"  >
             <template #cover>
                 <img :src="mapImageUrl" alt="Company Location" />
-      <p>Address: {{ companyDetails.geo_adresse }}</p>
+            </template>
+      <p>Addresse: {{ companyDetails.geo_adresse }}</p> 
 
-        <p>Since: {{ companyDetails.date_creation }}</p>
+        <p>Date de création:  {{ formattedDate }}</p>
         <p>SIREN: {{ companyDetails.siren }}</p>
-    </template>
+
         </n-card>
-
       <router-link :to="{ name: 'CompanyCard'}">
-
   <n-button type="primary" ghost>
     Back
   </n-button>
@@ -20,18 +20,40 @@
 </n-space>
     </div>
   </template>
-  
+
+ <!--- STYLE TO CUSTOMIZE MY NAIVE UI COMPONENTS -->  
+ 
+ <style scoped>
+
+.n-button {
+  margin: 0.25rem;
+  &:hover {
+    background-color: hsla(160, 38%, 61%, 0.103);
+  }
+}
+
+.n-card {
+    padding: 0.5rem;
+    height: 40rem;
+    background-color: rgba(219, 218, 226, 0.03);
+}
+
+</style>
+
+
+<!----------------- SCRIPT------------------>  
   <script setup>
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useRoute } from 'vue-router';
-  import { NCard, NSpace } from 'naive-ui';
+
 
   const route = useRoute();
   const companyId = route.params.id; // Access the ID from the route params
 
 const companyDetails = ref([]);
 const mapImageUrl = ref('');
+const formattedDate = ref('');
 
   
   
@@ -44,6 +66,8 @@ onMounted(async () => {
     const response = await axios.get(`http://localhost:5001/api/companies/${companyId}`);
     companyDetails.value = response.data;
 
+    
+
     // Generate the URL for the static map image
     const address = encodeURIComponent(companyDetails.value.geo_adresse);
     const mapSize = '600x400';
@@ -52,7 +76,15 @@ onMounted(async () => {
   } catch (error) {
     console.error('Error fetching company details:', error);
   }
-
+  // Using Js native method to format the date without a timestamp
+ try  {
+    const dateCreation = new Date(companyDetails.value.date_creation);
+    formattedDate.value = dateCreation.toLocaleDateString('fr-FR'); 
+  } catch (error) {
+    console.error('Error fetching company details:', error);
+  }
 });
+ 
+
   </script>
   

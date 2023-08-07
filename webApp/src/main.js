@@ -5,7 +5,7 @@ import AppLayout from './AppLayout.vue'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import naive from "naive-ui";
-import 'intersection-observer';  //polyfill
+import 'intersection-observer';  //polyfill for infinite scroll
 
 import App from './App.vue'
 import router from './router'

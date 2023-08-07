@@ -1,4 +1,4 @@
-<!-- AppLayout.vue -->
+<!-- AppLayout.vue  HELPED ME TO DISPLAY MY VIEWS ---->
 <template>
     <div>
       <!-- Header or any other common components can go here -->
