@@ -22,7 +22,7 @@
         
         <div v-if="company.nom_raison_sociale">
       <n-space justify="space-between" size="small">
-  <n-card :title="company.nom_raison_sociale" hoverable >
+  <n-card :title="company.nom_raison_sociale" hoverable v-if="company.nom_raison_sociale">
     <template #cover>
       <img src="https://picsum.photos/200?company">
     </template>
@@ -65,7 +65,7 @@
   width: 20rem;
   height:30rem;
   padding:0.5rem;
- background-color: rgba(219, 218, 226, 0.03);
+ background-color: rgba(219, 218, 226, 0.063);
 }
 
 .n-card img {
@@ -124,7 +124,7 @@ const fetchCompanies = async () => {
         name: searchQuery.value
       },
     });
-    companies.value = response.data;
+    companies.value = response.data.filter(company => company.nom_raison_sociale !== null && company.nom_raison_sociale.trim() !== '');
   } catch (error) {
     console.error('Error fetching companies:', error);
   }

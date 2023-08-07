@@ -1,4 +1,4 @@
-
+.env
 # Logs
 logs
 *.log
@@ -18,7 +18,7 @@ coverage
 
 /cypress/videos/
 /cypress/screenshots/
-
+.env
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
