@@ -18,14 +18,14 @@
     <div class="cardsGallery">
 
  <!--- FETCHING DATAS FROM MY LOCALE API AND MAPPING IT-->     
-      <div v-for="company in displayedCompanies" :key="company.id" >
+ <div v-for="(company, index) in displayedCompanies" :key="index">
         
         <div v-if="company.nom_raison_sociale">
       <n-space justify="space-between" size="small">
   <n-card :title="company.nom_raison_sociale" hoverable v-if="company.nom_raison_sociale">
     <template #cover>
      
-     <img :src="getImageUrl(company.id)" alt={{company.nom_raison_sociale}} />
+     <img :src="getImageUrl(index)" alt={{company.nom_raison_sociale}} />
     </template>
   Adress : {{ company.geo_adresse }} <br>
 
@@ -115,8 +115,11 @@ const itemsPerPage = 10; // Number of items to display per page
 const searchQuery = ref('');
 
 
-// Function to get the image URL from Picsum
-const getImageUrl = (companyId) => `https://picsum.photos/id/${companyId}/400`;
+// Function to get the image URL from Picsum using the index
+const getImageUrl = (index) => {
+  const imageIndex = (currentPage.value - 1) * itemsPerPage + index + 1;
+  return `https://picsum.photos/seed/${imageIndex}/400`;
+};
 
 
 // Fetch companies data and populate the companies array
