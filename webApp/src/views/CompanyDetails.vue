@@ -44,7 +44,7 @@
 <!----------------- SCRIPT------------------>  
   <script setup>
   import { ref, onMounted } from 'vue';
-  import axios from 'axios';
+  import instance from '../axios/axios.js';
   import { useRoute } from 'vue-router';
 
 
@@ -63,7 +63,7 @@ onMounted(async () => {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     
   try {
-    const response = await axios.get(`http://localhost:5001/api/companies/${companyId}`);
+    const response = await instance.get(`http://localhost:5001/api/companies/${companyId}`);
     companyDetails.value = response.data;
 
     

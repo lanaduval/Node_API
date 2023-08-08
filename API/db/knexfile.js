@@ -25,7 +25,7 @@ module.exports = {
   client: 'mysql2',
     connection: {
       database: process.DB_NAME,
-      user:    process.env.DB_USER,
+      user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
     }
     ,

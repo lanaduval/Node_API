@@ -24,7 +24,8 @@
       <n-space justify="space-between" size="small">
   <n-card :title="company.nom_raison_sociale" hoverable v-if="company.nom_raison_sociale">
     <template #cover>
-      <img src="https://picsum.photos/200?company">
+     
+     <img :src="getImageUrl(company.id)" alt={{company.nom_raison_sociale}} />
     </template>
   Adress : {{ company.geo_adresse }} <br>
 
@@ -106,7 +107,7 @@
 <!----------------- SCRIPT------------------>  
 <script setup>
 import { ref, computed, onMounted, watch} from 'vue';
-import axios from 'axios';
+import instance from '../axios/axios.js';
 
 const currentPage = ref(1);
 const companies = ref([]); // Array to store fetched companies data
@@ -114,12 +115,14 @@ const itemsPerPage = 10; // Number of items to display per page
 const searchQuery = ref('');
 
 
+// Function to get the image URL from Picsum
+const getImageUrl = (companyId) => `https://picsum.photos/id/${companyId}/400`;
 
 
 // Fetch companies data and populate the companies array
 const fetchCompanies = async () => {
   try {
-    const response = await axios.get('http://localhost:5001/api/companies', {
+    const response = await instance.get(`${import.meta.env.VITE_BACKEND_URL}/api/companies`, {
       params: {
         name: searchQuery.value
       },
@@ -145,9 +148,11 @@ onMounted(() => {
   fetchCompanies();
 });
 
+
 // Handle page change event from n-pagination
 const onPageChange = (newPage) => {
   currentPage.value = newPage;
+  fetchCompanies(); // Fetch companies data for the new page
 };
 
 
@@ -171,7 +176,7 @@ watch(searchQuery, () => {
 
 const generatePDF = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:5001/api/companies/generate-pdf/${id}`, {
+    const response = await instance.get(`http://localhost:5001/api/companies/generate-pdf/${id}`, {
       responseType: 'blob',
     });
     const file = new Blob([response.data], { type: 'application/pdf' });
@@ -181,6 +186,9 @@ const generatePDF = async (id) => {
     console.error('Error generating PDF:', error);
   }
 };
+
+
+
 
 
 
