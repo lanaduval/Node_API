@@ -1,6 +1,7 @@
 # webApp
 
 This template should help get you started developing with Vue 3 in Vite.
+This App is using [Maps Static API](https://developers.google.com/maps/documentation/maps-static/overview) please don't forget to use a key for a complete experience.
 
 ## Recommended IDE Setup
 
@@ -33,3 +34,5 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
